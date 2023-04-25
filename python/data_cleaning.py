@@ -56,8 +56,8 @@ geometry_atl.to_csv('data/cleaned/SafeGraph/geometry_atl_naics722410_202301.csv'
 
 
 ''' make census api calls'''
-acs5_code_list = ["B19013_001E", "B01003_001E", "B02001_003E"]
-acs5_name_list = ['mhi', 'pop', 'pop_black']
+acs5_code_list = ["B19013_001E", "B01003_001E", "B02001_002E", "B02001_003E", "B02001_004E", "B02001_005E"]
+acs5_name_list = ['mhi', 'pop', 'pop_white', 'pop_black', 'pop_asian', 'pop_native']
 acs5dp_code_list = []
 acs5dp_name_list = []
 year = 2019
@@ -66,5 +66,8 @@ api_key ='d54b04fce5ead0b754d8951da1ced097f3d050e1'
 result_acs5 = censusAPI_tract(api_key = api_key, table = 'detailed', year = year,
                              stateFIPS = '13', countyFIPSlist =countyFIPS,
                              var_code_list = acs5_code_list, var_name_list = acs5_name_list)
-result_acs5['P_black'] = result_acs5['pop_black'] / result_acs5['pop']
+result_acs5['P_white'], result_acs5['P_black'], result_acs5['P_asian'], result_acs5['P_native']= result_acs5['pop_white'] / result_acs5['pop'], result_acs5['pop_black'] / result_acs5['pop'],\
+result_acs5['pop_asian'] / result_acs5['pop'],result_acs5['pop_native'] / result_acs5['pop']
+
+
 result_acs5.to_csv('data/raw/census/acs_ATLtract_2019.csv', index = False)
